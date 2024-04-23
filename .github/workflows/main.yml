@@ -3,11 +3,11 @@ name: Select Docker Image and Run
 on:
   workflow_dispatch:
     inputs:
-      image_choice:
-        description: 'Choose a Docker image (node, jenkins, mongodb, redis, ngnix)'
+      choose_image:
+        description: 'Choose a Docker image (golang, mariadb, mongodb, redis, centos)'
         required: true
         default: 'node'
-        options: ['node', 'jenkins', 'mongodb', 'redis', 'ngnix']
+        options: ['golang', 'mariadb', 'mongodb', 'redis', 'centos']
 
 jobs:
   select_and_run_docker_image:
@@ -17,10 +17,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Echo docker selected image
-        run: echo ${{github.event.inputs.image_choice}}
+        run: echo ${{github.event.inputs.choose_image}}
 
       - name: Pull selected image
-        run: docker pull ${{github.event.inputs.image_choice}}
+        run: docker pull ${{github.event.inputs.choose_image}}
 
       - name: Run Selected Docker Image
-        run: docker run -d ${{github.event.inputs.image_choice}}:latest
+        run: docker run -d ${{github.event.inputs.choose_image}}:latest
