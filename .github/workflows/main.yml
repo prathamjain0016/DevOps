@@ -1,0 +1,26 @@
+name: Select Docker Image and Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_choice:
+        description: 'Choose a Docker image (node, jenkins, mongodb, redis, ngnix)'
+        required: true
+        default: 'node'
+        options: ['node', 'jenkins', 'mongodb', 'redis', 'ngnix']
+
+jobs:
+  select_and_run_docker_image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Echo docker selected image
+        run: echo ${{github.event.inputs.image_choice}}
+
+      - name: Pull selected image
+        run: docker pull ${{github.event.inputs.image_choice}}
+
+      - name: Run Selected Docker Image
+        run: docker run -d ${{github.event.inputs.image_choice}}:latest
